@@ -17,6 +17,14 @@
 
 @synthesize topPlaces = _topPlaces;
 
+- (void)setTopPlaces:(NSArray *)topPlaces
+{
+    if (_topPlaces != topPlaces) {
+        _topPlaces = topPlaces;
+        [self.tableView reloadData];
+    }
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -39,7 +47,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.topPlaces = [FlickrFetcher topPlaces];
+    NSArray *unorderedPlaces = [FlickrFetcher topPlaces];
+    self.topPlaces = [unorderedPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:FLICKR_PLACE_NAME ascending:YES]]];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -82,11 +91,6 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 0;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.topPlaces count];
@@ -102,7 +106,23 @@
     }
     
     // Configure the cell...
-    
+    NSDictionary *photo = [NSDictionary dictionaryWithDictionary:[self.topPlaces objectAtIndex:indexPath.row]];
+    NSMutableString *place = [[photo valueForKeyPath:FLICKR_PLACE_NAME] mutableCopy];
+    NSMutableArray *placeComponents = [[place componentsSeparatedByString:@","] mutableCopy];
+    NSString *city = [placeComponents objectAtIndex:0];
+    cell.textLabel.text = city;
+    [placeComponents removeObjectAtIndex:1];
+    NSString *details;
+    for (NSString *element in placeComponents) {
+        if (!details) {
+            details = element;
+        } else {
+            details = [details stringByAppendingString:[@"," stringByAppendingString:element]];
+        }
+    }
+    if (details) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", details];
+    }
     return cell;
 }
 

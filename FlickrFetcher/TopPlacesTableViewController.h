@@ -1,5 +1,5 @@
 //
-//  FlickrFetcherSecondViewController.h
+//  TopPlacesTableViewController.h
 //  FlickrFetcher
 //
 //  Created by Jeffrey Lam on 11/27/11.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlickrFetcherSecondViewController : UIViewController
+@interface TopPlacesTableViewController : UITableViewController
 
 @end

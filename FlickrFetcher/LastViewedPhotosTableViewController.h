@@ -1,5 +1,5 @@
 //
-//  FlickrFetcherFirstViewController.h
+//  LastViewedPhotosTableViewController.h
 //  FlickrFetcher
 //
 //  Created by Jeffrey Lam on 11/27/11.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlickrFetcherFirstViewController : UIViewController
+@interface LastViewedPhotosTableViewController : UITableViewController
 
 @end

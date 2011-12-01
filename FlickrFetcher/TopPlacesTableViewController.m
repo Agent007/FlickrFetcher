@@ -8,9 +8,10 @@
 
 #import "TopPlacesTableViewController.h"
 #import "FlickrFetcher.h"
+#import "RecentPhotosTableViewController.h"
 
 @interface TopPlacesTableViewController()
-@property (nonatomic, strong) NSArray *topPlaces; // may be changed to "atomic" later when mult-threading is implemented in next assignment
+@property (nonatomic, strong) NSArray *topPlaces; // TODO may be changed to "atomic" later when mult-threading is implemented in next assignment
 @end
 
 @implementation TopPlacesTableViewController
@@ -40,6 +41,15 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show Photos From City"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+        [segue.destinationViewController setPhotos:[FlickrFetcher photosInPlace:place maxResults:50]];
+    }
 }
 
 #pragma mark - View lifecycle
@@ -106,7 +116,7 @@
     }
     
     // Configure the cell...
-    NSDictionary *photo = [NSDictionary dictionaryWithDictionary:[self.topPlaces objectAtIndex:indexPath.row]];
+    NSDictionary *photo = [self.topPlaces objectAtIndex:indexPath.row];
     NSMutableString *place = [[photo valueForKeyPath:FLICKR_PLACE_NAME] mutableCopy];
     NSMutableArray *placeComponents = [[place componentsSeparatedByString:@","] mutableCopy];
     NSString *city = [placeComponents objectAtIndex:0];

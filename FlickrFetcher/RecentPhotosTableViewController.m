@@ -1,15 +1,15 @@
 //
-//  LastViewedPhotosTableViewController.m
+//  RecentPhotosTableViewController.m
 //  FlickrFetcher
 //
-//  Created by Jeffrey Lam on 11/27/11.
+//  Created by Jeffrey Lam on 11/28/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "LastViewedPhotosTableViewController.h"
+#import "RecentPhotosTableViewController.h"
+#import "FlickrFetcher.h"
 
-
-@implementation LastViewedPhotosTableViewController
+@implementation RecentPhotosTableViewController
 
 @synthesize photos = _photos;
 
@@ -36,6 +36,24 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"View Recent Photo From Place"]) {
+        if ([segue isKindOfClass:[UIStoryboardPopoverSegue class]]) {
+            //UIStoryboardPopoverSegue *popoverSegue = (UIStoryboardPopoverSegue *)segue;
+            //[self.popoverController dismissPopoverAnimated:YES];
+            //self.popoverController = popoverSegue.popoverController; // might want to be popover's delegate and self.popoverController = nil on dismiss?
+        }
+        //[segue.destinationViewController setDelegate:self];
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
+        [photo valueForKey:FLICKR_PHOTO_TITLE];
+        id viewController = segue.destinationViewController;
+        [viewController setTitle:((UITableViewCell *)sender).textLabel.text];
+        [viewController setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]]]];
+    }
 }
 
 #pragma mark - View lifecycle
@@ -81,7 +99,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -93,7 +111,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"Photo";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -101,6 +119,18 @@
     }
     
     // Configure the cell...
+    NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
+    NSString *title = [photo valueForKey:FLICKR_PHOTO_TITLE];
+    NSString *description = [photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
+    if (!title) {
+        title = description;
+        if (!description) {
+            title = @"Unknown";
+        }
+    }
+    cell.textLabel.text = title;
+    cell.detailTextLabel.text = description;
+    
     return cell;
 }
 

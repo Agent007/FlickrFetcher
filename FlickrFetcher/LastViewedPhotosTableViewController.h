@@ -10,4 +10,6 @@
 
 @interface LastViewedPhotosTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSArray *photos; // TODO may be changed to "atomic" later when mult-threading is implemented in next assignment
+
 @end

@@ -59,13 +59,24 @@
     [super viewDidLoad];
     self.scrollView.delegate = self;
     self.imageView.image = self.image;
-    self.scrollView.contentSize = self.image.size;//bounds.size;
-    NSLog(@"%@", self.imageView.image);
-    NSLog(@"%g", self.imageView.image.size.width);
-    NSLog(@"%g", self.imageView.image.size.height);
-    self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
-    [self.scrollView zoomToRect:self.imageView.frame animated:NO];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    CGSize imageSize = self.image.size;
+    self.scrollView.contentSize = imageSize;//bounds.size;
+    //self.scrollView.bounds; // TODO hint tells us to use this
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    self.imageView.frame = CGRectMake(0, 0, width, height);
+    CGRect zoomRect;
+    if (width < height) {
+        zoomRect = CGRectMake(0, 0, width, width);
+    } else {
+        zoomRect = CGRectMake(0, 0, height, height);
+    }
+    [self.scrollView zoomToRect:zoomRect animated:NO];
 }
 
 - (void)viewDidUnload

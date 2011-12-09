@@ -17,16 +17,7 @@
 
 @synthesize scrollView;
 @synthesize imageView;
-
-- (UIImage *)image
-{
-    return self.imageView.image;
-}
-
-- (void)setImage:(UIImage *)image
-{
-    self.imageView.image = image;
-}
+@synthesize image = _image;
 
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -67,8 +58,14 @@
 {
     [super viewDidLoad];
     self.scrollView.delegate = self;
-    self.scrollView.contentSize = self.imageView.bounds.size;//image.size;
+    self.imageView.image = self.image;
+    self.scrollView.contentSize = self.image.size;//bounds.size;
+    NSLog(@"%@", self.imageView.image);
+    NSLog(@"%g", self.imageView.image.size.width);
+    NSLog(@"%g", self.imageView.image.size.height);
     self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+    [self.scrollView zoomToRect:self.imageView.frame animated:NO];
+    
 }
 
 - (void)viewDidUnload

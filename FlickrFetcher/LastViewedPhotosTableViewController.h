@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RecentPhotosTableViewController.h"
 
-@interface LastViewedPhotosTableViewController : UITableViewController
-
-@property (nonatomic, strong) NSArray *photos; // TODO may be changed to "atomic" later when mult-threading is implemented in next assignment
+@interface LastViewedPhotosTableViewController : RecentPhotosTableViewController
 
 @end

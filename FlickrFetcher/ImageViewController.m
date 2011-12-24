@@ -7,6 +7,7 @@
 //
 
 #import "ImageViewController.h"
+#import "FlickrFetcher.h"
 
 @interface ImageViewController() <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -17,7 +18,7 @@
 
 @synthesize scrollView;
 @synthesize imageView;
-@synthesize image = _image;
+@synthesize photo = _photo;
 
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -58,15 +59,16 @@
 {
     [super viewDidLoad];
     self.scrollView.delegate = self;
-    self.imageView.image = self.image;
+    self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:self.photo format:FlickrPhotoFormatLarge]]];
     
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    CGSize imageSize = self.image.size;
+    [super viewWillAppear:animated];
+    CGSize imageSize = self.imageView.image.size;
     self.scrollView.contentSize = imageSize;//bounds.size;
-    //self.scrollView.bounds; // TODO hint tells us to use this
+    //self.scrollView.bounds; // TODO hint 11 of assignment 4 tells us to use this
     CGFloat width = imageSize.width;
     CGFloat height = imageSize.height;
     self.imageView.frame = CGRectMake(0, 0, width, height);
@@ -77,6 +79,31 @@
         zoomRect = CGRectMake(0, 0, height, height);
     }
     [self.scrollView zoomToRect:zoomRect animated:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    // save this photo in recently-viewed photos list
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *LAST_PHOTOS = @"LAST_PHOTOS";
+    NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[defaults objectForKey:LAST_PHOTOS]];
+    if (!lastPhotos) {
+        lastPhotos = [NSMutableOrderedSet orderedSet];
+    }
+    [lastPhotos removeObject:self.photo];
+    [lastPhotos addObject:self.photo];
+    if ([lastPhotos count] > 20) { // cap the number of recently-viewed photos list to 20
+        NSMutableOrderedSet *reverseSet = [[lastPhotos reversedOrderedSet] mutableCopy];
+        NSRange range;
+        range.location = 0;
+        range.length = 20;
+        reverseSet = [[NSMutableOrderedSet alloc] initWithOrderedSet:reverseSet range:range copyItems:YES];
+        lastPhotos = [[reverseSet reversedOrderedSet] mutableCopy];
+    }
+    [defaults setObject:[lastPhotos array] forKey:LAST_PHOTOS];
+    [defaults synchronize];
+
 }
 
 - (void)viewDidUnload

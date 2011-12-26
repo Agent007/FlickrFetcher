@@ -20,6 +20,14 @@
 @synthesize imageView;
 @synthesize photo = _photo;
 
+- (NSDictionary *)photo
+{
+    if (!_photo) {
+        _photo = [[[NSUserDefaults standardUserDefaults] objectForKey:@"LAST_PHOTOS"] lastObject];
+    }
+    return _photo;
+}
+
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

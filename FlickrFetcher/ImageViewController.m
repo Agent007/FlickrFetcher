@@ -12,6 +12,7 @@
 @interface ImageViewController() <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @end
 
 @implementation ImageViewController
@@ -19,6 +20,7 @@
 @synthesize scrollView;
 @synthesize imageView;
 @synthesize photo = _photo;
+@synthesize titleLabel;
 
 - (NSDictionary *)photo
 {
@@ -68,7 +70,7 @@
     [super viewDidLoad];
     self.scrollView.delegate = self;
     self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:self.photo format:FlickrPhotoFormatLarge]]];
-    
+    self.titleLabel.text = [self.photo valueForKey:FLICKR_PHOTO_TITLE];
 }
 
 - (void)viewWillAppear:(BOOL)animated

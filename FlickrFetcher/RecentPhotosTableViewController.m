@@ -65,7 +65,7 @@
     NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
     NSString *title = [photo valueForKey:FLICKR_PHOTO_TITLE];
     NSString *description = [photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
-    if (!title) {
+    if (!title) { // TODO what if title is whitespace, but not null?
         title = description;
         if (!description) {
             title = @"Unknown";

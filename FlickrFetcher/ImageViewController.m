@@ -113,7 +113,6 @@
     }
     [defaults setObject:[lastPhotos array] forKey:LAST_PHOTOS];
     [defaults synchronize];
-
 }
 
 - (void)viewDidUnload

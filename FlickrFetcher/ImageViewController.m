@@ -91,7 +91,7 @@
     if (!lastPhotos) {
         lastPhotos = [NSMutableOrderedSet orderedSet];
     }
-    [lastPhotos removeObject:self.photo];
+    [lastPhotos removeObject:self.photo]; // if we view a photo from recently viewed photos list, put it on top of list
     [lastPhotos addObject:self.photo];
     if ([lastPhotos count] > 20) { // cap the number of recently-viewed photos list to 20
         NSMutableOrderedSet *reverseSet = [[lastPhotos reversedOrderedSet] mutableCopy];

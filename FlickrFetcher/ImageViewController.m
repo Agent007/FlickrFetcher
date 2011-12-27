@@ -33,6 +33,35 @@
     return _photo;
 }
 
+- (void)setPhoto:(NSDictionary *)photo
+{
+    if (_photo != photo) {
+        _photo = photo;
+        self.scrollView.zoomScale = 1;
+        self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]]];
+        self.titleLabel.text = [photo valueForKey:FLICKR_PHOTO_TITLE];
+        // save this photo in recently-viewed photos list
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *LAST_PHOTOS = @"LAST_PHOTOS";
+        NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[defaults objectForKey:LAST_PHOTOS]];
+        if (!lastPhotos) {
+            lastPhotos = [NSMutableOrderedSet orderedSet];
+        }
+        [lastPhotos removeObject:photo]; // if we view a photo from recently viewed photos list, put it on top of list
+        [lastPhotos addObject:photo];
+        if ([lastPhotos count] > 20) { // cap the number of recently-viewed photos list to 20
+            NSMutableOrderedSet *reverseSet = [[lastPhotos reversedOrderedSet] mutableCopy];
+            NSRange range;
+            range.location = 0;
+            range.length = 20;
+            reverseSet = [[NSMutableOrderedSet alloc] initWithOrderedSet:reverseSet range:range copyItems:YES];
+            lastPhotos = [[reverseSet reversedOrderedSet] mutableCopy];
+        }
+        [defaults setObject:[lastPhotos array] forKey:LAST_PHOTOS];
+        [defaults synchronize];
+    }
+}
+
 - (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
 {
     if (splitViewBarButtonItem != _splitViewBarButtonItem) {
@@ -76,26 +105,6 @@
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
 }
 
-
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-*/
-
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.imageView;
@@ -103,15 +112,6 @@
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -124,43 +124,44 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    CGSize imageSize = self.imageView.image.size;
-    self.scrollView.contentSize = imageSize;//bounds.size;
-    //self.scrollView.bounds; // TODO hint 11 of assignment 4 tells us to use this
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    self.imageView.frame = CGRectMake(0, 0, width, height);
+    // code from https://github.com/mikegoodspeed/Places/blob/master/Places/PhotoViewController.m
+    CGRect viewRect = self.scrollView.bounds;
+    CGSize viewSize = viewRect.size;
+    CGFloat viewWidth = viewSize.width;
+    CGFloat viewHeight = viewSize.height;
+    UIImage *image = self.imageView.image;
+    CGSize imageSize = image.size;
+    CGFloat imageWidth = imageSize.width;
+    CGFloat imageHeight = imageSize.height;
+    CGFloat screenAspect = viewWidth / viewHeight;
+    CGFloat imageAspect = imageWidth / imageHeight;
+    
     CGRect zoomRect;
-    if (width < height) {
-        zoomRect = CGRectMake(0, 0, width, width);
-    } else {
-        zoomRect = CGRectMake(0, 0, height, height);
+    if (imageAspect > screenAspect)
+    {
+        zoomRect = CGRectMake(0, 0, imageHeight * screenAspect, imageHeight);
     }
+    else
+    {
+        zoomRect = CGRectMake(0, 0, imageWidth, imageWidth / screenAspect);
+    }
+    CGSize zoomRectSize = zoomRect.size;
+    zoomRect.origin.x = (imageWidth - zoomRectSize.width) / 2;
+    zoomRect.origin.y = (imageHeight - zoomRectSize.height) / 2;
+    
     [self.scrollView zoomToRect:zoomRect animated:NO];
+    
+    // Set the minimum zoom
+    CGFloat xscale = viewWidth / imageWidth;
+    CGFloat yscale = viewHeight / imageHeight;
+    
+    CGFloat minscale = (xscale < yscale ? xscale : yscale);
+    self.scrollView.minimumZoomScale = minscale;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    // save this photo in recently-viewed photos list
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *LAST_PHOTOS = @"LAST_PHOTOS";
-    NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[defaults objectForKey:LAST_PHOTOS]];
-    if (!lastPhotos) {
-        lastPhotos = [NSMutableOrderedSet orderedSet];
-    }
-    [lastPhotos removeObject:self.photo]; // if we view a photo from recently viewed photos list, put it on top of list
-    [lastPhotos addObject:self.photo];
-    if ([lastPhotos count] > 20) { // cap the number of recently-viewed photos list to 20
-        NSMutableOrderedSet *reverseSet = [[lastPhotos reversedOrderedSet] mutableCopy];
-        NSRange range;
-        range.location = 0;
-        range.length = 20;
-        reverseSet = [[NSMutableOrderedSet alloc] initWithOrderedSet:reverseSet range:range copyItems:YES];
-        lastPhotos = [[reverseSet reversedOrderedSet] mutableCopy];
-    }
-    [defaults setObject:[lastPhotos array] forKey:LAST_PHOTOS];
-    [defaults synchronize];
 }
 
 - (void)viewDidUnload

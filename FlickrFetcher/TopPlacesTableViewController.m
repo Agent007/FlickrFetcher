@@ -39,7 +39,8 @@
 {
     if ([segue.identifier isEqualToString:@"Show Photos From City"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+        NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
+        NSDictionary *place = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
         [segue.destinationViewController setPhotos:[FlickrFetcher photosInPlace:place maxResults:50]];
     }
 }
@@ -106,9 +107,9 @@
     
     // Configure the cell...
     NSString *country = [self tableView:tableView titleForHeaderInSection:indexPath.section];
-    NSDictionary *photo = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
-    NSMutableString *place = [[photo valueForKeyPath:FLICKR_PLACE_NAME] mutableCopy];
-    NSMutableArray *placeComponents = [[place componentsSeparatedByString:@","] mutableCopy];
+    NSDictionary *place = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
+    NSMutableString *placeString = [[place valueForKeyPath:FLICKR_PLACE_NAME] mutableCopy];
+    NSMutableArray *placeComponents = [[placeString componentsSeparatedByString:@","] mutableCopy];
     NSString *city = [placeComponents objectAtIndex:0];
     cell.textLabel.text = city;
     [placeComponents removeObjectAtIndex:0];

@@ -193,13 +193,13 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items/>
                             </toolbar>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="FiO-ky-cM5">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" minimumZoomScale="-4" maximumZoomScale="4" id="FiO-ky-cM5">
                                 <rect key="frame" x="0.0" y="44" width="768" height="960"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="BxJ-r7-lxb">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="BxJ-r7-lxb">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                             </scrollView>
@@ -215,6 +215,8 @@
                     </view>
                     <toolbarItems/>
                     <connections>
+                        <outlet property="imageView" destination="BxJ-r7-lxb" id="X1M-gf-EJS"/>
+                        <outlet property="scrollView" destination="FiO-ky-cM5" id="18l-xV-7NF"/>
                         <outlet property="titleLabel" destination="poJ-hi-cy4" id="Qfn-2H-DfS"/>
                         <outlet property="toolbar" destination="8Zw-aU-lxV" id="G2Y-Jv-z5X"/>
                     </connections>

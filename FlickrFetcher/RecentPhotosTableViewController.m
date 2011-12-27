@@ -77,4 +77,11 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
+    ImageViewController *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
+    detailViewController.photo = photo;
+}
+
 @end

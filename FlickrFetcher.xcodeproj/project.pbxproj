@@ -27,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AF7096A314A9433300137DFC /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 		AF9DC2551487DFCB0017723F /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		AF9DC2561487DFCB0017723F /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 		AFAE162114832350001E7D41 /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
@@ -113,6 +114,7 @@
 				AF9DC2561487DFCB0017723F /* ImageViewController.m */,
 				AFAE163C14839618001E7D41 /* RecentPhotosTableViewController.h */,
 				AFAE163D14839618001E7D41 /* RecentPhotosTableViewController.m */,
+				AF7096A314A9433300137DFC /* SplitViewBarButtonItemPresenter.h */,
 				AFED37E414820F2B001DE098 /* first.png */,
 				AFED37E614820F2B001DE098 /* first@2x.png */,
 				AFED37EB14820F2B001DE098 /* second.png */,

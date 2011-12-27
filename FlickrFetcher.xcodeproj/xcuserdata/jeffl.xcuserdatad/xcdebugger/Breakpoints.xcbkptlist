@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "FlickrFetcher/ImageViewController.m"
-         timestampString = "346633035.378259"
+         timestampString = "346640532.053119"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "72"
-         endingLineNumber = "72"
+         startingLineNumber = "124"
+         endingLineNumber = "124"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "FlickrFetcher/ImageViewController.m"
-         timestampString = "346633035.378259"
+         timestampString = "346638671.428791"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "30"
-         endingLineNumber = "30"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
          landmarkName = "-photo"
          landmarkType = "5">
       </FileBreakpoint>

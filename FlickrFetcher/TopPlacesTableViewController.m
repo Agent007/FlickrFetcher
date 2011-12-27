@@ -50,25 +50,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSArray *unorderedPlaces = [FlickrFetcher topPlaces];
-    NSArray *topPlaces = self.topPlaces = [unorderedPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:FLICKR_PLACE_NAME ascending:YES]]];
-    NSMutableDictionary *countries = [NSMutableDictionary dictionary];
-    for (NSDictionary *place in topPlaces) {
-        NSString *country = [[[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","] lastObject];
-        NSMutableArray *cities = [countries valueForKey:country];
-        if (cities) {
-            [cities addObject:place];
-        } else {
-            cities = [NSMutableArray arrayWithObject:place];
-            [countries setValue:cities forKey:country];
-        }
-    }
-    self.countries = countries;
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        NSArray *unorderedPlaces = [FlickrFetcher topPlaces];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // TODO stop progress bar
+            NSArray *topPlaces = self.topPlaces = [unorderedPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:FLICKR_PLACE_NAME ascending:YES]]];
+            NSMutableDictionary *countries = [NSMutableDictionary dictionary];
+            for (NSDictionary *place in topPlaces) {
+                NSString *country = [[[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","] lastObject];
+                NSMutableArray *cities = [countries valueForKey:country];
+                if (cities) {
+                    [cities addObject:place];
+                } else {
+                    cities = [NSMutableArray arrayWithObject:place];
+                    [countries setValue:cities forKey:country];
+                }
+            }
+            self.countries = countries;
+        });
+    });
+    dispatch_release(downloadQueue);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

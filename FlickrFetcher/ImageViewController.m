@@ -40,7 +40,6 @@
 {
     NSData *imageData = [NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]];
     dispatch_async(dispatch_get_main_queue(), ^{
-        //[self.activityIndicatorView startAnimating];
         UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
         self.scrollView.contentSize = image.size;
         self.titleLabel.text = [photo valueForKey:FLICKR_PHOTO_TITLE];

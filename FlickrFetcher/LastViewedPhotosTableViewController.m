@@ -14,12 +14,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"View Recently Viewed Photo"]) {
-        if ([segue isKindOfClass:[UIStoryboardPopoverSegue class]]) {
-            //UIStoryboardPopoverSegue *popoverSegue = (UIStoryboardPopoverSegue *)segue;
-            //[self.popoverController dismissPopoverAnimated:YES];
-            //self.popoverController = popoverSegue.popoverController; // might want to be popover's delegate and self.popoverController = nil on dismiss?
-        }
-        //[segue.destinationViewController setDelegate:self];
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
         id viewController = segue.destinationViewController;
@@ -27,7 +21,6 @@
         ((ImageViewController *) viewController).photo = photo;
     }
 }
-
 
 #pragma mark - View lifecycle
 

@@ -9,16 +9,19 @@
 #import "TopPlacesTableViewController.h"
 #import "FlickrFetcher.h"
 #import "RecentPhotosTableViewController.h"
+#import "BackgroundLoader.h"
 
 @interface TopPlacesTableViewController()
-@property (nonatomic, strong) NSArray *topPlaces; // TODO may be changed to "atomic" later when mult-threading is implemented in next assignment
+@property (nonatomic, strong) NSArray *topPlaces;
 @property (nonatomic, strong) NSDictionary *countries;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView; // TODO extract all activityIndicatorViews and put into BackgroundLoader by programatically creating the activity indicator view and its parent plain UIView; or, use a 3rd party component like https://github.com/mattmmatt/MBProgressHUD when coding professionally instead of doing this as a homework
 @end
 
 @implementation TopPlacesTableViewController
 
 @synthesize topPlaces = _topPlaces;
 @synthesize countries = _countries;
+@synthesize activityIndicatorView = _activityIndicatorView;
 
 - (void)setTopPlaces:(NSArray *)topPlaces
 {
@@ -41,8 +44,13 @@
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
         NSDictionary *place = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
-        [segue.destinationViewController setPhotos:[FlickrFetcher photosInPlace:place maxResults:50]];
+        [segue.destinationViewController setPlace:place];
     }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
 }
 
 #pragma mark - View lifecycle
@@ -50,11 +58,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
-    dispatch_async(downloadQueue, ^{
+    [BackgroundLoader viewDidLoad:nil withBlock:^{
         NSArray *unorderedPlaces = [FlickrFetcher topPlaces];
         dispatch_async(dispatch_get_main_queue(), ^{
-            // TODO stop progress bar
+            [self.activityIndicatorView stopAnimating];
             NSArray *topPlaces = self.topPlaces = [unorderedPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:FLICKR_PLACE_NAME ascending:YES]]];
             NSMutableDictionary *countries = [NSMutableDictionary dictionary];
             for (NSDictionary *place in topPlaces) {
@@ -69,13 +76,7 @@
             }
             self.countries = countries;
         });
-    });
-    dispatch_release(downloadQueue);
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
+    }];
 }
 
 #pragma mark - Table view data source
@@ -129,4 +130,8 @@
     return cell;
 }
 
+- (void)viewDidUnload {
+    self.activityIndicatorView = nil;
+    [super viewDidUnload];
+}
 @end

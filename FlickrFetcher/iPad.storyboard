@@ -27,7 +27,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jao-qd-BPG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="TpP-gE-aI2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Top Places" id="Izm-xo-MHZ"/>
+                    <tabBarItem key="tabBarItem" systemItem="topRated" id="Izm-xo-MHZ"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="5Ta-lH-ONM">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -46,6 +46,17 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="739"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="ZjS-00-GxL">
+                            <rect key="frame" x="0.0" y="66" width="320" height="742"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <activityIndicatorView contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="XQF-xi-Xfa">
+                                    <rect key="frame" x="150" y="361" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Place" textLabel="dA5-Ya-6ov" detailTextLabel="Dm1-zN-bSw" style="IBUITableViewCellStyleSubtitle" id="pb4-0x-af7">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -81,7 +92,7 @@
                             <outlet property="delegate" destination="A1f-sB-TLU" id="MR2-U0-yYX"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Top Places" id="m97-Es-tL0"/>
+                    <tabBarItem key="tabBarItem" systemItem="topRated" id="m97-Es-tL0"/>
                     <navigationItem key="navigationItem" id="O4y-VV-YQ0"/>
                 </tableViewController>
             </objects>
@@ -95,6 +106,17 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="739"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="4Mx-BM-qse">
+                            <rect key="frame" x="0.0" y="66" width="320" height="978"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="IL7-cJ-Akg">
+                                    <rect key="frame" x="150" y="479" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Photo" textLabel="ywC-y2-dns" detailTextLabel="qXw-fv-Hbd" style="IBUITableViewCellStyleSubtitle" id="C8M-74-geV">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -129,6 +151,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="kD5-7c-Dj2"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="IL7-cJ-Akg" id="CX0-oc-2t5"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1388" y="-345"/>
@@ -175,7 +200,7 @@
                             <outlet property="delegate" destination="IWT-fG-SAj" id="vc0-x8-GEg"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Last Viewed Photos" id="0Eb-Pg-yXD"/>
+                    <tabBarItem key="tabBarItem" systemItem="recents" id="0Eb-Pg-yXD"/>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="386" y="777"/>
@@ -193,16 +218,6 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items/>
                             </toolbar>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" minimumZoomScale="-4" maximumZoomScale="4" id="FiO-ky-cM5">
-                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="BxJ-r7-lxb">
-                                        <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                </subviews>
-                            </scrollView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="poJ-hi-cy4">
                                 <rect key="frame" x="256" y="11" width="256" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -210,11 +225,26 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" minimumZoomScale="-4" maximumZoomScale="4" id="FiO-ky-cM5">
+                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="R78-TK-7LO">
+                                        <rect key="frame" x="374" y="470" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="BxJ-r7-lxb">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="R78-TK-7LO" id="zhM-nM-uei"/>
                         <outlet property="imageView" destination="BxJ-r7-lxb" id="X1M-gf-EJS"/>
                         <outlet property="scrollView" destination="FiO-ky-cM5" id="18l-xV-7NF"/>
                         <outlet property="titleLabel" destination="poJ-hi-cy4" id="Qfn-2H-DfS"/>
@@ -242,6 +272,7 @@
         <class className="ImageViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
@@ -253,9 +284,15 @@
         </class>
         <class className="RecentPhotosTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
         </class>
         <class className="TopPlacesTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

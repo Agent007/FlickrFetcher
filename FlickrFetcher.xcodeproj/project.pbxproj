@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF54A2EC14ABA594001B0E16 /* BackgroundLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AF54A2EB14ABA593001B0E16 /* BackgroundLoader.m */; };
 		AF9DC2571487DFCB0017723F /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9DC2561487DFCB0017723F /* ImageViewController.m */; };
 		AFAE162214832350001E7D41 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFAE162114832350001E7D41 /* iPad.storyboard */; };
 		AFAE1626148326D4001E7D41 /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAE1625148326D4001E7D41 /* FlickrFetcher.m */; };
@@ -27,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AF54A2EA14ABA593001B0E16 /* BackgroundLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLoader.h; sourceTree = "<group>"; };
+		AF54A2EB14ABA593001B0E16 /* BackgroundLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLoader.m; sourceTree = "<group>"; };
 		AF7096A314A9433300137DFC /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 		AF9DC2551487DFCB0017723F /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		AF9DC2561487DFCB0017723F /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 				AFED37D314820F2B001DE098 /* Supporting Files */,
 				AFAE1627148328A9001E7D41 /* TopPlacesTableViewController.h */,
 				AFAE1628148328A9001E7D41 /* TopPlacesTableViewController.m */,
+				AF54A2EA14ABA593001B0E16 /* BackgroundLoader.h */,
+				AF54A2EB14ABA593001B0E16 /* BackgroundLoader.m */,
 			);
 			path = FlickrFetcher;
 			sourceTree = "<group>";
@@ -211,6 +216,7 @@
 				AFAE162C1483294F001E7D41 /* LastViewedPhotosTableViewController.m in Sources */,
 				AFAE163E14839618001E7D41 /* RecentPhotosTableViewController.m in Sources */,
 				AF9DC2571487DFCB0017723F /* ImageViewController.m in Sources */,
+				AF54A2EC14ABA594001B0E16 /* BackgroundLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RecentPhotosTableViewController : UITableViewController
-@property (nonatomic, strong) NSArray *photos; // may be changed to "atomic" later when mult-threading is implemented in next assignment
+@property (nonatomic, strong) NSArray *photos;
+@property (nonatomic, strong) NSDictionary *place;
 @end

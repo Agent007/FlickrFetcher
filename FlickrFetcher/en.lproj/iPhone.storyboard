@@ -9,7 +9,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bOR-yT-jsa" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController title="Top Places" definesPresentationContext="YES" id="0gM-DS-9x7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Top Places" id="BW9-3L-dl8"/>
+                    <tabBarItem key="tabBarItem" systemItem="topRated" id="BW9-3L-dl8"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Pj5-mY-JYG">
                         <autoresizingMask key="autoresizingMask"/>
@@ -29,6 +29,16 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" alpha="0.50000000000000011" contentMode="scaleToFill" id="9FQ-jz-DJD">
+                            <rect key="frame" x="0.0" y="66" width="320" height="354"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="Alm-cb-dtL">
+                                    <rect key="frame" x="152" y="165" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                            </subviews>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Place" textLabel="YTM-2S-BeY" detailTextLabel="fgn-pf-Yp4" style="IBUITableViewCellStyleSubtitle" id="Gpp-nc-3mj">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -64,8 +74,11 @@
                             <outlet property="delegate" destination="Eux-R8-ILy" id="cVB-0X-yBJ"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Top Places" id="wqU-qG-coP"/>
+                    <tabBarItem key="tabBarItem" systemItem="topRated" id="wqU-qG-coP"/>
                     <navigationItem key="navigationItem" id="NSS-d7-7zJ"/>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="Alm-cb-dtL" id="OWi-cP-zQa"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="516" y="263"/>
@@ -78,6 +91,17 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="9Df-fn-S11">
+                            <rect key="frame" x="0.0" y="66" width="320" height="303"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <activityIndicatorView contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="n7L-kN-jtt">
+                                    <rect key="frame" x="150" y="142" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Photo" textLabel="1DT-RM-bAi" detailTextLabel="Xes-b3-fOP" style="IBUITableViewCellStyleSubtitle" id="pO2-ww-ECQ">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -115,6 +139,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="leb-qr-GPp"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="n7L-kN-jtt" id="ph3-Dd-sVU"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="923" y="263"/>
@@ -164,7 +191,7 @@
                             <outlet property="delegate" destination="5Gw-qk-B7x" id="Ziu-gb-EkN"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Last Viewed Photos" id="H5C-cK-4AR"/>
+                    <tabBarItem key="tabBarItem" systemItem="recents" id="H5C-cK-4AR"/>
                     <navigationItem key="navigationItem" id="Tph-9J-Qx1"/>
                 </tableViewController>
             </objects>
@@ -182,7 +209,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="vh1-vZ-Bib">
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="B8r-Ml-7in">
+                                        <rect key="frame" x="151" y="173" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="vh1-vZ-Bib">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -194,6 +225,7 @@
                     <navigationItem key="navigationItem" id="DND-gl-O5D"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="B8r-Ml-7in" id="Ffg-E5-RjW"/>
                         <outlet property="imageView" destination="vh1-vZ-Bib" id="YvJ-h5-bO9"/>
                         <outlet property="scrollView" destination="YXa-PQ-TVt" id="7C7-sa-mja"/>
                     </connections>
@@ -205,7 +237,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rgD-1I-F0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController title="Last Viewed Photos" definesPresentationContext="YES" id="Wq4-Gv-z6k" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Last Viewed Photos" id="Bm7-AE-rQL"/>
+                    <tabBarItem key="tabBarItem" systemItem="recents" id="Bm7-AE-rQL"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="l4F-lC-NnT">
                         <autoresizingMask key="autoresizingMask"/>
@@ -236,32 +268,12 @@
             <point key="canvasLocation" x="-471" y="624"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="ImageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
-            </relationships>
-        </class>
-        <class className="LastViewedPhotosTableViewController" superclassName="RecentPhotosTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LastViewedPhotosTableViewController.h"/>
-        </class>
-        <class className="RecentPhotosTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
-        </class>
-        <class className="TopPlacesTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="3E8-8V-MOw"/>
+        <segue reference="cvK-9O-2kH"/>
     </inferredMetricsTieBreakers>
 </document>

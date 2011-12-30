@@ -9,10 +9,17 @@
 #import "RecentPhotosTableViewController.h"
 #import "FlickrFetcher.h"
 #import "ImageViewController.h"
+#import "BackgroundLoader.h"
+
+@interface RecentPhotosTableViewController()
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@end
 
 @implementation RecentPhotosTableViewController
+@synthesize activityIndicatorView = _activityIndicatorView;
 
 @synthesize photos = _photos;
+@synthesize place = _place;
 
 - (void)setPhotos:(NSArray *)photos
 {
@@ -22,26 +29,33 @@
     }
 }
 
+- (void)setPlace:(NSDictionary *)place
+{
+    if (_place != place) {
+        _place = place;
+        [BackgroundLoader viewDidLoad:nil withBlock:^{
+            NSArray *photos = [FlickrFetcher photosInPlace:place maxResults:50];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.photos = photos;
+                [self.activityIndicatorView stopAnimating];
+            });
+        }];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"View Recent Photo From Place"]) {
-        if ([segue isKindOfClass:[UIStoryboardPopoverSegue class]]) {
-            //UIStoryboardPopoverSegue *popoverSegue = (UIStoryboardPopoverSegue *)segue;
-            //[self.popoverController dismissPopoverAnimated:YES];
-            //self.popoverController = popoverSegue.popoverController; // might want to be popover's delegate and self.popoverController = nil on dismiss?
-        }
-        //[segue.destinationViewController setDelegate:self];
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
         id viewController = segue.destinationViewController;
         [viewController setTitle:((UITableViewCell *)sender).textLabel.text];
-        ((ImageViewController *) viewController).photo = photo;
+        ((ImageViewController *)viewController).photo = photo;
     }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -84,4 +98,8 @@
     detailViewController.photo = photo;
 }
 
+- (void)viewDidUnload {
+    self.activityIndicatorView = nil;
+    [super viewDidUnload];
+}
 @end

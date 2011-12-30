@@ -8,22 +8,25 @@
 
 #import "ImageViewController.h"
 #import "FlickrFetcher.h"
+#import "BackgroundLoader.h"
 
 @interface ImageViewController() <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @end
 
 @implementation ImageViewController
 
-@synthesize scrollView;
-@synthesize imageView;
+@synthesize scrollView = _scrollView;
+@synthesize imageView = _imageView;
 @synthesize photo = _photo;
-@synthesize titleLabel;
+@synthesize titleLabel = _titleLabel;
 @synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
 @synthesize toolbar = _toolbar;
+@synthesize activityIndicatorView = _activityIndicatorView;
 
 - (NSDictionary *)photo
 {
@@ -33,13 +36,27 @@
     return _photo;
 }
 
+-(void)fetchPhotoAndSetTitle:(NSDictionary *)photo
+{
+    NSData *imageData = [NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //[self.activityIndicatorView startAnimating];
+        UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
+        self.scrollView.contentSize = image.size;
+        self.titleLabel.text = [photo valueForKey:FLICKR_PHOTO_TITLE];
+        [self.activityIndicatorView stopAnimating];
+    });
+}
+
 - (void)setPhoto:(NSDictionary *)photo
 {
     if (_photo != photo) {
+        [self.activityIndicatorView startAnimating];
         _photo = photo;
         self.scrollView.zoomScale = 1;
-        self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]]];
-        self.titleLabel.text = [photo valueForKey:FLICKR_PHOTO_TITLE];
+        [BackgroundLoader viewDidLoad:nil withBlock:^{
+            [self fetchPhotoAndSetTitle:photo];
+        }];
         // save this photo in recently-viewed photos list
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *LAST_PHOTOS = @"LAST_PHOTOS";
@@ -116,58 +133,18 @@
 {
     [super viewDidLoad];
     self.scrollView.delegate = self;
-    self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:self.photo format:FlickrPhotoFormatLarge]]];
-    self.titleLabel.text = [self.photo valueForKey:FLICKR_PHOTO_TITLE];
+    [BackgroundLoader viewDidLoad:self.activityIndicatorView withBlock:^{
+        [self fetchPhotoAndSetTitle:self.photo];
+    }];
     self.splitViewController.delegate = self;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    // code from https://github.com/mikegoodspeed/Places/blob/master/Places/PhotoViewController.m
-    CGRect viewRect = self.scrollView.bounds;
-    CGSize viewSize = viewRect.size;
-    CGFloat viewWidth = viewSize.width;
-    CGFloat viewHeight = viewSize.height;
-    UIImage *image = self.imageView.image;
-    CGSize imageSize = image.size;
-    CGFloat imageWidth = imageSize.width;
-    CGFloat imageHeight = imageSize.height;
-    CGFloat screenAspect = viewWidth / viewHeight;
-    CGFloat imageAspect = imageWidth / imageHeight;
-    
-    CGRect zoomRect;
-    if (imageAspect > screenAspect)
-    {
-        zoomRect = CGRectMake(0, 0, imageHeight * screenAspect, imageHeight);
-    }
-    else
-    {
-        zoomRect = CGRectMake(0, 0, imageWidth, imageWidth / screenAspect);
-    }
-    CGSize zoomRectSize = zoomRect.size;
-    zoomRect.origin.x = (imageWidth - zoomRectSize.width) / 2;
-    zoomRect.origin.y = (imageHeight - zoomRectSize.height) / 2;
-    
-    [self.scrollView zoomToRect:zoomRect animated:NO];
-    
-    // Set the minimum zoom
-    CGFloat xscale = viewWidth / imageWidth;
-    CGFloat yscale = viewHeight / imageHeight;
-    
-    CGFloat minscale = (xscale < yscale ? xscale : yscale);
-    self.scrollView.minimumZoomScale = minscale;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 - (void)viewDidUnload
 {
     self.imageView = nil;
     self.scrollView = nil;
+    self.toolbar = nil;
+    self.activityIndicatorView = nil;
     [super viewDidUnload];
 }
 

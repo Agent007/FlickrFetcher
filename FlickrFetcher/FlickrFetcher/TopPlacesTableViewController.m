@@ -10,8 +10,6 @@
 #import "FlickrFetcher.h"
 #import "RecentPhotosTableViewController.h"
 #import "BackgroundLoader.h"
-#import <MapKit/MapKit.h>
-#import "FlickrPlaceAnnotation.h"
 
 @interface TopPlacesTableViewController()
 @property (nonatomic, strong) NSArray *topPlaces;
@@ -50,23 +48,24 @@
     }
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [BackgroundLoader viewDidLoad:nil withBlock:^{
         NSArray *unorderedPlaces = [FlickrFetcher topPlaces];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.activityIndicatorView stopAnimating];
             NSArray *topPlaces = self.topPlaces = [unorderedPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:FLICKR_PLACE_NAME ascending:YES]]];
             NSMutableDictionary *countries = [NSMutableDictionary dictionary];
-            //NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[topPlaces count]];
-            NSMutableDictionary *annotations = [NSMutableDictionary dictionaryWithCapacity:[topPlaces count]];
             for (NSDictionary *place in topPlaces) {
-                NSString *placeName = [place valueForKeyPath:FLICKR_PLACE_NAME];
-                NSString *country = [[placeName componentsSeparatedByString:@","] lastObject];
+                NSString *country = [[[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","] lastObject];
                 NSMutableArray *cities = [countries valueForKey:country];
                 if (cities) {
                     [cities addObject:place];
@@ -74,13 +73,8 @@
                     cities = [NSMutableArray arrayWithObject:place];
                     [countries setValue:cities forKey:country];
                 }
-                FlickrPlaceAnnotation *annotation = [FlickrPlaceAnnotation annotationForPlace:place];
-                [self.mapView addAnnotation:annotation];
-                //[annotations addObject:[FlickrPlaceAnnotation annotationForPlace:place]];
-                [annotations setValue:annotation forKey:placeName];
             }
             self.countries = countries;
-            self.annotations = annotations;
         });
     }];
 }
@@ -92,9 +86,9 @@
     return [self.countries count];
 }
 
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSString *country = [self tableView:table titleForHeaderInSection:section];
+    NSString *country = [self tableView:tableView titleForHeaderInSection:section];
     return [[self.countries valueForKey:country] count];
 }
 
@@ -105,21 +99,34 @@
     }] objectAtIndex:section];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)table cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Place";
     
-    UITableViewCell *cell = [table dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
-    NSString *country = [self tableView:table titleForHeaderInSection:indexPath.section];
+    NSString *country = [self tableView:tableView titleForHeaderInSection:indexPath.section];
     NSDictionary *place = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
-    FlickrPlaceAnnotation *annotation = [FlickrPlaceAnnotation annotationForPlace:place];
-    cell.textLabel.text = annotation.city;
-    cell.detailTextLabel.text = annotation.provinceAndCountry;
+    NSMutableString *placeString = [[place valueForKeyPath:FLICKR_PLACE_NAME] mutableCopy];
+    NSMutableArray *placeComponents = [[placeString componentsSeparatedByString:@","] mutableCopy];
+    NSString *city = [placeComponents objectAtIndex:0];
+    cell.textLabel.text = city;
+    [placeComponents removeObjectAtIndex:0];
+    NSString *details;
+    for (NSString *element in placeComponents) {
+        if (!details) {
+            details = element;
+        } else {
+            details = [details stringByAppendingString:[@"," stringByAppendingString:element]];
+        }
+    }
+    if (details) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", details];
+    }
     return cell;
 }
 
@@ -127,5 +134,4 @@
     self.activityIndicatorView = nil;
     [super viewDidUnload];
 }
-
 @end

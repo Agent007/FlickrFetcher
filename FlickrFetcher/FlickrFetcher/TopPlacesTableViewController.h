@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapTableViewController.h"
 
-@interface TopPlacesTableViewController : MapTableViewController
+@interface TopPlacesTableViewController : UITableViewController
 @end

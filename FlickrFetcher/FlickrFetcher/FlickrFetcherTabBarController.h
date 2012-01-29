@@ -1,5 +1,5 @@
 //
-//  TopPlacesTableViewController.h
+//  FlickrFetcherTabBarController.h
 //  FlickrFetcher
 //
 //  Created by Jeffrey Lam on 11/27/11.
@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapTableViewController.h"
 
-@interface TopPlacesTableViewController : MapTableViewController
+@interface FlickrFetcherTabBarController : UITabBarController
+
 @end

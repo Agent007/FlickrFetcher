@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapTableViewController.h"
 
-@interface RecentPhotosTableViewController : MapTableViewController
+@interface RecentPhotosTableViewController : UITableViewController
 @property (nonatomic, strong) NSArray *photos;
 @property (nonatomic, strong) NSDictionary *place;
 @end

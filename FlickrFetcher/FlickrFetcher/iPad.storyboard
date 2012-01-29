@@ -93,13 +93,7 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" systemItem="topRated" id="m97-Es-tL0"/>
-                    <navigationItem key="navigationItem" id="O4y-VV-YQ0">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="tGY-Eu-6Ec">
-                            <connections>
-                                <action selector="toggleView:" destination="A1f-sB-TLU" id="ZUI-fH-hZJ"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="O4y-VV-YQ0"/>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="382" y="-551"/>
@@ -109,7 +103,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ijl-3B-IGH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="TW9-U9-s5d" customClass="RecentPhotosTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="i3l-MG-4Rj">
-                        <rect key="frame" x="0.0" y="64" width="320" height="744"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="4Mx-BM-qse">
@@ -155,16 +149,8 @@
                             <outlet property="delegate" destination="TW9-U9-s5d" id="Zmt-pm-4if"/>
                         </connections>
                     </tableView>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="kD5-7c-Dj2">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="0lR-P4-dSN">
-                            <connections>
-                                <action selector="toggleView:" destination="TW9-U9-s5d" id="Jc8-Tg-lQt"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="kD5-7c-Dj2"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="IL7-cJ-Akg" id="CX0-oc-2t5"/>
                     </connections>
@@ -282,6 +268,33 @@
             <point key="canvasLocation" x="-1591" y="2118"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="ImageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="LastViewedPhotosTableViewController" superclassName="RecentPhotosTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LastViewedPhotosTableViewController.h"/>
+        </class>
+        <class className="RecentPhotosTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="TopPlacesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

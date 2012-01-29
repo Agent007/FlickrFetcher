@@ -75,13 +75,7 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" systemItem="topRated" id="wqU-qG-coP"/>
-                    <navigationItem key="navigationItem" id="NSS-d7-7zJ">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="KI6-Ac-Z1i">
-                            <connections>
-                                <action selector="toggleView:" destination="Eux-R8-ILy" id="CVt-l9-QgL"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="NSS-d7-7zJ"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="Alm-cb-dtL" id="OWi-cP-zQa"/>
                     </connections>
@@ -94,7 +88,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XLQ-DQ-7c2" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController title="Recent Photos" id="7Kb-Zi-b1x" customClass="RecentPhotosTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zxN-VF-YO8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="9Df-fn-S11">
@@ -143,16 +137,8 @@
                             <outlet property="delegate" destination="7Kb-Zi-b1x" id="7ai-ab-9gQ"/>
                         </connections>
                     </tableView>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="leb-qr-GPp">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="i6u-NL-TyB">
-                            <connections>
-                                <action selector="toggleView:" destination="7Kb-Zi-b1x" id="6lj-CK-85V"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="leb-qr-GPp"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="n7L-kN-jtt" id="ph3-Dd-sVU"/>
                     </connections>
@@ -216,19 +202,19 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ABc-uC-i4a" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="4Mh-4b-qnu" customClass="ImageViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DQc-dN-hAs">
-                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" minimumZoomScale="-4" maximumZoomScale="4" id="YXa-PQ-TVt">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="B8r-Ml-7in">
-                                        <rect key="frame" x="151" y="175" width="20" height="20"/>
+                                        <rect key="frame" x="151" y="173" width="20" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="vh1-vZ-Bib">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -282,36 +268,6 @@
             <point key="canvasLocation" x="-471" y="624"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="ImageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
-            </relationships>
-        </class>
-        <class className="LastViewedPhotosTableViewController" superclassName="RecentPhotosTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LastViewedPhotosTableViewController.h"/>
-        </class>
-        <class className="MapTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapTableViewController.h"/>
-        </class>
-        <class className="RecentPhotosTableViewController" superclassName="MapTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
-            </relationships>
-        </class>
-        <class className="TopPlacesTableViewController" superclassName="MapTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

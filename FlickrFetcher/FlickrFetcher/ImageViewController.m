@@ -43,7 +43,6 @@
         UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
         self.scrollView.contentSize = image.size;
         self.titleLabel.text = [photo valueForKey:FLICKR_PHOTO_TITLE];
-        self.imageView.hidden = NO;
         [self.activityIndicatorView stopAnimating];
     });
 }
@@ -51,7 +50,6 @@
 - (void)setPhoto:(NSDictionary *)photo
 {
     if (_photo != photo) {
-        self.imageView.hidden = YES;
         [self.activityIndicatorView startAnimating];
         _photo = photo;
         self.scrollView.zoomScale = 1;

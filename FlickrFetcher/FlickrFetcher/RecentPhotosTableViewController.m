@@ -10,7 +10,6 @@
 #import "FlickrFetcher.h"
 #import "ImageViewController.h"
 #import "BackgroundLoader.h"
-#import "FlickrPhotoAnnotation.h"
 
 @interface RecentPhotosTableViewController()
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
@@ -27,14 +26,6 @@
     if (_photos != photos) {
         _photos = photos;
         [self.tableView reloadData];
-        NSMutableDictionary *annotations = [NSMutableDictionary dictionaryWithCapacity:[photos count]];
-        for (NSDictionary *photo in photos) {
-            FlickrPhotoAnnotation *annotation = [FlickrPhotoAnnotation annotationForPhoto:photo];
-            [self.mapView addAnnotation:annotation];
-            //[annotations addObject:[FlickrPlaceAnnotation annotationForPlace:place]];
-            [annotations setValue:annotation forKey:[photo valueForKey:FLICKR_PHOTO_ID]];
-        }
-        self.annotations = annotations;
     }
 }
 

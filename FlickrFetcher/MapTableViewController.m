@@ -57,6 +57,8 @@
 	[self.view addSubview:self.tableView];
 	
 	self.mapView.frame = self.view.bounds;
+    self.mapView.zoomEnabled = YES;
+    self.mapView.scrollEnabled = YES;
 	[self.view addSubview:self.mapView];
 	
 	self.mapView.hidden = YES;

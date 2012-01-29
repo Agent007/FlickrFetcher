@@ -83,6 +83,7 @@
             self.annotations = annotations;
         });
     }];
+    // TODO zoom out map to show all pins from around the world
 }
 
 #pragma mark - Table view data source

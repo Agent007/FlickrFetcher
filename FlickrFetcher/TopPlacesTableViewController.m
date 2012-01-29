@@ -46,7 +46,8 @@
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
         NSDictionary *place = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
-        [segue.destinationViewController setPlace:place];
+        RecentPhotosTableViewController *destinationViewController = (RecentPhotosTableViewController *)segue.destinationViewController;
+        destinationViewController.place = place;
     }
 }
 

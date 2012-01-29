@@ -47,6 +47,12 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.photos = photos;
                 [self.activityIndicatorView stopAnimating];
+                
+                // TODO maybe re-use FlickrPlaceAnnotation
+                CLLocationCoordinate2D coordinate;
+                coordinate.latitude = [[place objectForKey:FLICKR_LATITUDE] doubleValue];
+                coordinate.longitude = [[place objectForKey:FLICKR_LONGITUDE] doubleValue];
+                self.mapView.centerCoordinate = coordinate;
             });
         }];
     }

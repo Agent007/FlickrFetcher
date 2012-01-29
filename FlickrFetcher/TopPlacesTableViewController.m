@@ -84,7 +84,11 @@
             self.annotations = annotations;
         });
     }];
-    // TODO zoom out map to show all pins from around the world
+    // zoom out map to show all pins from around the world
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = 0.0;
+    coordinate.longitude = 0.0;
+    self.mapView.region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(180, 180));
 }
 
 #pragma mark - Table view data source

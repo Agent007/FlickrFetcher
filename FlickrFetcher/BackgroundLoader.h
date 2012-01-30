@@ -11,5 +11,8 @@
 #import <Foundation/Foundation.h>
 
 @interface BackgroundLoader : NSObject
+
+// TODO maybe remove activityIndicatorView since the parameter isn't bein used and a more event-driven object-oriented design would be better anyway
 + (void)viewDidLoad:(UIView *)activityIndicatorView withBlock:(void (^)())block;
+
 @end

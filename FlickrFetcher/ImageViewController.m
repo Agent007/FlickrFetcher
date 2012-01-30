@@ -36,14 +36,13 @@
     return _photo;
 }
 
--(void)fetchPhotoAndSetTitle:(NSDictionary *)photo
+- (void)fetchPhoto:(NSDictionary *)photo
 {
     NSLog(@"fetchPhotoAndSetTitle: [NSData dataWithContentsOfURL]");
     NSData *imageData = [NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]];
     dispatch_async(dispatch_get_main_queue(), ^{
         UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
         self.scrollView.contentSize = image.size;
-        self.titleLabel.text = [photo valueForKey:FLICKR_PHOTO_TITLE];
         self.imageView.hidden = NO;
         [self.activityIndicatorView stopAnimating];
     });
@@ -52,12 +51,15 @@
 - (void)setPhoto:(NSDictionary *)photo
 {
     if (_photo != photo) {
+        // for good usability, immediately show photo title while waiting for photo download
+        self.titleLabel.text = [photo valueForKey:FLICKR_PHOTO_TITLE];
         self.imageView.hidden = YES;
         [self.activityIndicatorView startAnimating];
         _photo = photo;
         self.scrollView.zoomScale = 1;
+        // TODO ensure last photo selected is shown after multiple quick selections while downloading
         [BackgroundLoader viewDidLoad:nil withBlock:^{
-            [self fetchPhotoAndSetTitle:photo];
+            [self fetchPhoto:photo];
         }];
         // save this photo in recently-viewed photos list
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -136,7 +138,7 @@
     [super viewDidLoad];
     self.scrollView.delegate = self;
     [BackgroundLoader viewDidLoad:self.activityIndicatorView withBlock:^{
-        [self fetchPhotoAndSetTitle:self.photo];
+        [self fetchPhoto:self.photo];
     }];
     self.splitViewController.delegate = self;
 }

@@ -29,6 +29,8 @@
     [super viewWillAppear:animated];
     NSMutableOrderedSet *lastPhotos = [NSMutableOrderedSet orderedSetWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"LAST_PHOTOS"]];
     self.photos = [[lastPhotos reversedOrderedSet] array];
+    [super makeMapViewRegionShowEntireWorld];
+    [super showViewAfterDownload];
 }
 
 @end

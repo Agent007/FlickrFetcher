@@ -14,6 +14,8 @@
 @synthesize mapView = _mapView;
 @synthesize annotations = _annotations;
 @synthesize tableView;
+@synthesize activityIndicatorView = _activityIndicatorView;
+@synthesize mapToggleButton = _mapToggleButton;
 
 - (MKMapView *)mapView
 {
@@ -23,21 +25,12 @@
     return _mapView;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (UIActivityIndicatorView *)activityIndicatorView
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
     }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+    return _activityIndicatorView;
 }
 
 #pragma mark - View lifecycle
@@ -60,8 +53,12 @@
     self.mapView.zoomEnabled = YES;
     self.mapView.scrollEnabled = YES;
 	[self.view addSubview:self.mapView];
+    [self.view addSubview:self.activityIndicatorView];
 	
 	self.mapView.hidden = YES;
+    self.tableView.hidden = YES;
+    [self.activityIndicatorView startAnimating]; // FIXME Why won't this show in split view?
+    [self showView:self.activityIndicatorView];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -69,18 +66,47 @@
     return YES;
 }
 
+- (void)showView:(UIView *)view
+{
+    view.hidden = NO;
+    self.view = view;
+}
+
 - (IBAction)toggleView:(UIBarButtonItem *)sender {
+    // TODO display text "Loading Table/Map..." for better usability
     if ([sender.title isEqualToString:@"Map"]) {
-        self.mapView.hidden = NO;
-        self.view = self.mapView;
+        if (!self.activityIndicatorView.isAnimating) {
+            [self showView:self.mapView];
+        }
         sender.title = @"List";
         self.tableView.hidden = YES;
     } else if ([sender.title isEqualToString:@"List"]) {
-        self.tableView.hidden = NO;
-        self.view = self.tableView;
+        if (!self.activityIndicatorView.isAnimating) {
+            [self showView:self.tableView];
+        }
         sender.title = @"Map";
         self.mapView.hidden = YES;
     }
+}
+
+- (void)showViewAfterDownload
+{
+    [self.activityIndicatorView stopAnimating];
+    NSString *buttonTitle = self.mapToggleButton.title;
+    if ([buttonTitle isEqualToString:@"Map"]) {
+        [self showView:self.tableView];
+    } else if ([buttonTitle isEqualToString:@"List"]) {
+        [self showView:self.mapView];
+    }
+}
+
+- (void)makeMapViewRegionShowEntireWorld
+{
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = 0.0;
+    coordinate.longitude = 0.0;
+    self.mapView.region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(180, 180));
+
 }
 
 @end

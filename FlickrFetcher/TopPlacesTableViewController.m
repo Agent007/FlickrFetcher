@@ -16,14 +16,13 @@
 @interface TopPlacesTableViewController()
 @property (nonatomic, strong) NSArray *topPlaces;
 @property (nonatomic, strong) NSDictionary *countries;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView; // TODO extract all activityIndicatorViews and put into BackgroundLoader by programatically creating the activity indicator view and its parent plain UIView; or, use a 3rd party component like https://github.com/mattmmatt/MBProgressHUD when coding professionally instead of doing this as a homework
 @end
 
 @implementation TopPlacesTableViewController
+@synthesize mapToggleButton = _mapToggleButton;
 
 @synthesize topPlaces = _topPlaces;
 @synthesize countries = _countries;
-@synthesize activityIndicatorView = _activityIndicatorView;
 
 - (void)setTopPlaces:(NSArray *)topPlaces
 {
@@ -60,7 +59,6 @@
     [BackgroundLoader viewDidLoad:nil withBlock:^{
         NSArray *unorderedPlaces = [FlickrFetcher topPlaces];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.activityIndicatorView stopAnimating];
             NSArray *topPlaces = self.topPlaces = [unorderedPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:FLICKR_PLACE_NAME ascending:YES]]];
             NSMutableDictionary *countries = [NSMutableDictionary dictionary];
             //NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[topPlaces count]];
@@ -82,13 +80,10 @@
             }
             self.countries = countries;
             self.annotations = annotations;
+            [super showViewAfterDownload];
         });
     }];
-    // zoom out map to show all pins from around the world
-    CLLocationCoordinate2D coordinate;
-    coordinate.latitude = 0.0;
-    coordinate.longitude = 0.0;
-    self.mapView.region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(180, 180));
+    [super makeMapViewRegionShowEntireWorld];
 }
 
 #pragma mark - Table view data source
@@ -127,11 +122,6 @@
     cell.textLabel.text = annotation.city;
     cell.detailTextLabel.text = annotation.provinceAndCountry;
     return cell;
-}
-
-- (void)viewDidUnload {
-    self.activityIndicatorView = nil;
-    [super viewDidUnload];
 }
 
 @end

@@ -46,6 +46,7 @@
                 CLLocationCoordinate2D coordinate;
                 coordinate.latitude = [[place objectForKey:FLICKR_LATITUDE] doubleValue];
                 coordinate.longitude = [[place objectForKey:FLICKR_LONGITUDE] doubleValue];
+                // TODO calculate region per assignment 5, required task 6
                 self.mapView.region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.5, 0.5)); // 0.5 degree radius seems to show metropolitan regions well enough without too much calculation involving all pins' coordinates
                 
                 [super showViewAfterDownload];

@@ -7,7 +7,11 @@
 //
 
 #import "MapTableViewController.h"
+#import "FlickrPhotoAnnotation.h"
+#import "FlickrFetcher.h"
 
+@interface MapTableViewController() <MKMapViewDelegate, MapViewControllerDelegate>
+@end
 
 @implementation MapTableViewController
 
@@ -16,6 +20,7 @@
 @synthesize tableView;
 @synthesize activityIndicatorView = _activityIndicatorView;
 @synthesize mapToggleButton = _mapToggleButton;
+@synthesize delegate = _delegate;
 
 - (MKMapView *)mapView
 {
@@ -59,6 +64,9 @@
     self.tableView.hidden = YES;
     [self.activityIndicatorView startAnimating];
     [self showView:self.activityIndicatorView];
+    
+    self.mapView.delegate = self;
+    self.delegate = self;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -107,6 +115,47 @@
     coordinate.longitude = 0.0;
     self.mapView.region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(180, 180));
 
+}
+
+#pragma mark - MKMapViewDelegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    MKAnnotationView *aView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MapVC"];
+    if (!aView) {
+        aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapVC"];
+        aView.canShowCallout = YES;
+        aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    }
+    
+    aView.annotation = annotation;
+    [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];
+    
+    return aView;
+}
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
+{
+    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+    ((UIImageView *) aView.leftCalloutAccessoryView).image = image;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    NSLog(@"callout accessory tapped for annotation %@", [view.annotation title]);
+}
+
+#pragma mark - MapViewControllerDelegate
+
+- (UIImage *)mapViewController:(UIViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
+{
+    FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *) annotation;
+    // TODO download asynchronously
+    NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
+    NSLog(@"mapViewController:imageForAnnotation, [NSData dataWithContentsOfURL]");
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    return data ? [UIImage imageWithData:data] : nil;
 }
 
 @end

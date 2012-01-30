@@ -38,6 +38,7 @@
 
 -(void)fetchPhotoAndSetTitle:(NSDictionary *)photo
 {
+    NSLog(@"fetchPhotoAndSetTitle: [NSData dataWithContentsOfURL]");
     NSData *imageData = [NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]];
     dispatch_async(dispatch_get_main_queue(), ^{
         UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];

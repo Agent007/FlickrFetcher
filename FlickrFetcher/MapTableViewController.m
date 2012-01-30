@@ -57,7 +57,7 @@
 	
 	self.mapView.hidden = YES;
     self.tableView.hidden = YES;
-    [self.activityIndicatorView startAnimating]; // FIXME Why won't this show in split view?
+    [self.activityIndicatorView startAnimating];
     [self showView:self.activityIndicatorView];
 }
 

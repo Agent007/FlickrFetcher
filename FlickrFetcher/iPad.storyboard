@@ -104,17 +104,6 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="744"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="4Mx-BM-qse">
-                            <rect key="frame" x="0.0" y="66" width="320" height="978"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="IL7-cJ-Akg">
-                                    <rect key="frame" x="150" y="479" width="20" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                </activityIndicatorView>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Photo" textLabel="ywC-y2-dns" detailTextLabel="qXw-fv-Hbd" style="IBUITableViewCellStyleSubtitle" id="C8M-74-geV">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -158,7 +147,6 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="IL7-cJ-Akg" id="CX0-oc-2t5"/>
                         <outlet property="mapToggleButton" destination="0lR-P4-dSN" id="Yq3-Af-jUH"/>
                     </connections>
                 </tableViewController>

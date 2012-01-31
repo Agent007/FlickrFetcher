@@ -55,15 +55,26 @@
     }
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue identifier:(NSString *)identifier sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:identifier]) {
+        ImageViewController *viewController = (ImageViewController *) segue.destinationViewController;
+        if ([sender isKindOfClass:[UITableViewCell class]]) {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+            NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
+            viewController.title = ((UITableViewCell *) sender).textLabel.text;
+            viewController.photo = photo;
+        } else if ([sender isKindOfClass:[MKAnnotationView class]]) {
+            FlickrPhotoAnnotation *annotation = (FlickrPhotoAnnotation *) ((MKAnnotationView *) sender).annotation;
+            viewController.title = annotation.title;
+            viewController.photo = annotation.photo;
+        }
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"View Recent Photo From Place"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
-        id viewController = segue.destinationViewController;
-        [viewController setTitle:((UITableViewCell *)sender).textLabel.text];
-        ((ImageViewController *)viewController).photo = photo;
-    }
+    [self prepareForSegue:segue identifier:@"View Recent Photo From Place" sender:sender];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -108,6 +119,24 @@
     NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
     ImageViewController *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
     detailViewController.photo = photo;
+}
+
+#pragma mark - MKMapViewDelegate
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control segueIdentifier:(NSString *)identifier
+{
+    ImageViewController *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
+    if (detailViewController) { // we're in split view controller
+        FlickrPhotoAnnotation *annotation = (FlickrPhotoAnnotation *) view.annotation;
+        detailViewController.photo = annotation.photo;
+    } else {
+        [self performSegueWithIdentifier:identifier sender:view];
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    [self mapView:mapView annotationView:view calloutAccessoryControlTapped:control segueIdentifier:@"View Recent Photo From Place"];
 }
 
 @end

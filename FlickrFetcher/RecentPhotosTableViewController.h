@@ -10,6 +10,10 @@
 #import "MapTableViewController.h"
 
 @interface RecentPhotosTableViewController : MapTableViewController
+
 @property (nonatomic, strong) NSArray *photos;
 @property (nonatomic, strong) NSDictionary *place;
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue identifier:(NSString *)identifier sender:(id)sender;
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control segueIdentifier:(NSString *)identifier;
 @end

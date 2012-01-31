@@ -42,11 +42,22 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Show Photos From City"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
-        NSDictionary *place = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
-        RecentPhotosTableViewController *destinationViewController = (RecentPhotosTableViewController *)segue.destinationViewController;
+        RecentPhotosTableViewController *destinationViewController = (RecentPhotosTableViewController *) segue.destinationViewController;
+        NSDictionary *place;
+        if ([sender isKindOfClass:[UITableViewCell class]]) {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+            NSString *country = [self tableView:self.tableView titleForHeaderInSection:indexPath.section];
+            place = [[self.countries valueForKey:country] objectAtIndex:indexPath.row];
+        } else if ([sender isKindOfClass:[MKAnnotationView class]]) {
+            FlickrPlaceAnnotation *annotation = (FlickrPlaceAnnotation *) ((MKAnnotationView *) sender).annotation;
+            place = annotation.place;
+        }
         destinationViewController.place = place;
+        if (!self.mapView.hidden) {
+            destinationViewController.viewMode = @"Map";
+        } else if (!self.tableView.hidden) {
+            destinationViewController.viewMode = @"List";
+        }
     }
 }
 
@@ -55,7 +66,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [BackgroundLoader viewDidLoad:nil withBlock:^{
         NSArray *unorderedPlaces = [FlickrFetcher topPlaces];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -140,6 +150,12 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
 {
+    // overriding default behavior of setting the image in the left accessory view to do nothing
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    [self performSegueWithIdentifier:@"Show Photos From City" sender:view];
 }
 
 @end

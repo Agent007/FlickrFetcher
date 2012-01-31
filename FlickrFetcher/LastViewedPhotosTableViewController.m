@@ -13,13 +13,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"View Recently Viewed Photo"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
-        id viewController = segue.destinationViewController;
-        [viewController setTitle:((UITableViewCell *)sender).textLabel.text];
-        ((ImageViewController *) viewController).photo = photo;
-    }
+    [super prepareForSegue:segue identifier:@"View Recently Viewed Photo" sender:sender];
 }
 
 #pragma mark - View lifecycle
@@ -31,6 +25,13 @@
     self.photos = [[lastPhotos reversedOrderedSet] array];
     [super makeMapViewRegionShowEntireWorld];
     [super showViewAfterDownload];
+}
+
+#pragma mark - MKMapViewDelegate
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    [super mapView:mapView annotationView:view calloutAccessoryControlTapped:control segueIdentifier:@"View Recently Viewed Photo"];
 }
 
 @end

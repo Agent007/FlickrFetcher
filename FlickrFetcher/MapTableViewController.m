@@ -21,6 +21,7 @@
 @synthesize activityIndicatorView = _activityIndicatorView;
 @synthesize mapToggleButton = _mapToggleButton;
 @synthesize delegate = _delegate;
+@synthesize viewMode = _viewMode;
 
 - (MKMapView *)mapView
 {
@@ -38,12 +39,26 @@
     return _activityIndicatorView;
 }
 
+- (NSString *)viewMode
+{
+    if (!_viewMode) {
+        _viewMode = @"List";
+    }
+    return _viewMode;
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    if ([self.viewMode isEqualToString:@"Map"]) {
+        self.mapToggleButton.title = @"List";
+    } else if ([self.viewMode isEqualToString:@"List"]) {
+        self.mapToggleButton.title = @"Map";
+    }
+    
     /* next several lines from http://www.stanford.edu/class/cs193p/cgi-bin/drupal/system/files/sample_code/Shutterbug%20Map.zip -- placing MapView onto TableView in InterfaceBuilder doesn't work as intended */
     if (!tableView && [self.view isKindOfClass:[UITableView class]]) {
 		tableView = (UITableView *)self.view;
@@ -82,6 +97,7 @@
 
 - (IBAction)toggleView:(UIBarButtonItem *)sender {
     // TODO display text "Loading Table/Map..." for better usability
+    self.viewMode = sender.title;
     if ([sender.title isEqualToString:@"Map"]) {
         if (!self.activityIndicatorView.isAnimating) {
             [self showView:self.mapView];

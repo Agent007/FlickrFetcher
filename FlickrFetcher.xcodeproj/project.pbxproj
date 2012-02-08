@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF32D11F14D5D9B4006F1333 /* MapTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF32D11E14D5D9B4006F1333 /* MapTableViewController.m */; };
 		AF54A2EC14ABA594001B0E16 /* BackgroundLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AF54A2EB14ABA593001B0E16 /* BackgroundLoader.m */; };
+		AF68201D14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = AF68201C14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m */; };
 		AF8CC97A14D0ADEB0048FDAC /* FlickrPhotoAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8CC97914D0ADEB0048FDAC /* FlickrPhotoAnnotation.m */; };
 		AF8CC97D14D0B0940048FDAC /* FlickrPlaceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8CC97C14D0B0930048FDAC /* FlickrPlaceAnnotation.m */; };
 		AF9DC2571487DFCB0017723F /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9DC2561487DFCB0017723F /* ImageViewController.m */; };
@@ -36,6 +37,8 @@
 		AF32D11E14D5D9B4006F1333 /* MapTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapTableViewController.m; sourceTree = "<group>"; };
 		AF54A2EA14ABA593001B0E16 /* BackgroundLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLoader.h; sourceTree = "<group>"; };
 		AF54A2EB14ABA593001B0E16 /* BackgroundLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLoader.m; sourceTree = "<group>"; };
+		AF68201B14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i5CustomFlipOverStoryboardSegue.h; sourceTree = "<group>"; };
+		AF68201C14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = i5CustomFlipOverStoryboardSegue.m; sourceTree = "<group>"; };
 		AF7096A314A9433300137DFC /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 		AF8CC97814D0ADEB0048FDAC /* FlickrPhotoAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPhotoAnnotation.h; sourceTree = "<group>"; };
 		AF8CC97914D0ADEB0048FDAC /* FlickrPhotoAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPhotoAnnotation.m; sourceTree = "<group>"; };
@@ -146,6 +149,8 @@
 				AF8CC97C14D0B0930048FDAC /* FlickrPlaceAnnotation.m */,
 				AF32D11D14D5D9B4006F1333 /* MapTableViewController.h */,
 				AF32D11E14D5D9B4006F1333 /* MapTableViewController.m */,
+				AF68201B14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.h */,
+				AF68201C14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m */,
 			);
 			path = FlickrFetcher;
 			sourceTree = "<group>";
@@ -239,6 +244,7 @@
 				AF8CC97A14D0ADEB0048FDAC /* FlickrPhotoAnnotation.m in Sources */,
 				AF8CC97D14D0B0940048FDAC /* FlickrPlaceAnnotation.m in Sources */,
 				AF32D11F14D5D9B4006F1333 /* MapTableViewController.m in Sources */,
+				AF68201D14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

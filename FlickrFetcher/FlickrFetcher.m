@@ -77,6 +77,7 @@
 
 + (NSURL *)urlForPhoto:(NSDictionary *)photo format:(FlickrPhotoFormat)format
 {
+    [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]]; // simulate network latency
     return [NSURL URLWithString:[self urlStringForPhoto:photo format:format]];
 }
 

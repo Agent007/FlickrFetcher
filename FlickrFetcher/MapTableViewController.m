@@ -9,8 +9,9 @@
 #import "MapTableViewController.h"
 #import "FlickrPhotoAnnotation.h"
 #import "FlickrFetcher.h"
+#import "BackgroundLoader.h"
 
-@interface MapTableViewController() <MKMapViewDelegate, MapViewControllerDelegate>
+@interface MapTableViewController() <MKMapViewDelegate>
 @end
 
 @implementation MapTableViewController
@@ -20,7 +21,6 @@
 @synthesize tableView;
 @synthesize activityIndicatorView = _activityIndicatorView;
 @synthesize mapToggleButton = _mapToggleButton;
-@synthesize delegate = _delegate;
 @synthesize viewMode = _viewMode;
 
 - (MKMapView *)mapView
@@ -153,25 +153,23 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
 {
-    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
-    ((UIImageView *) aView.leftCalloutAccessoryView).image = image;
+    FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *) aView.annotation;
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
+        NSLog(@"mapViewController:imageForAnnotation, [NSData dataWithContentsOfURL]");
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIImage *image = data ? [UIImage imageWithData:data] : nil;
+            ((UIImageView *) aView.leftCalloutAccessoryView).image = image;
+        });
+    });
+    dispatch_release(downloadQueue);
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     NSLog(@"callout accessory tapped for annotation %@", [view.annotation title]);
-}
-
-#pragma mark - MapViewControllerDelegate
-
-- (UIImage *)mapViewController:(UIViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
-{
-    FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *) annotation;
-    // TODO download asynchronously
-    NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
-    NSLog(@"mapViewController:imageForAnnotation, [NSData dataWithContentsOfURL]");
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    return data ? [UIImage imageWithData:data] : nil;
 }
 
 @end

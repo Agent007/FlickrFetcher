@@ -38,16 +38,30 @@
 
 - (void)fetchPhoto:(NSDictionary *)photo
 {
-    NSLog(@"fetchPhotoAndSetTitle: [NSData dataWithContentsOfURL]");
-    NSData *imageData = [NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]];
-        dispatch_async(dispatch_get_main_queue(), ^{
+    // check file-based cache
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSURL *cacheDirectory = (NSURL *) [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+    NSLog(@"path: %@", cacheDirectory);
+    NSString *filepathString = [[cacheDirectory path] stringByAppendingString:(NSString *) [photo valueForKey:FLICKR_PHOTO_ID]];
+    NSData *imageData;
+    if ([fileManager fileExistsAtPath:filepathString]) {
+        imageData = [fileManager contentsAtPath:filepathString];
+    } else {
+        NSLog(@"fetchPhoto: [NSData dataWithContentsOfURL]");
+        imageData = [NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]];
+        if (![fileManager createFileAtPath:filepathString contents:imageData attributes:nil]) {
+            NSLog(@"Unable to write file to cache!");
+        }
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
         if (photo == self.photo) { // in case user rapidly selects several photos
-                UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
-                self.scrollView.contentSize = image.size;
-                self.imageView.hidden = NO;
-                [self.activityIndicatorView stopAnimating];
-            }
-        });
+            UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
+            self.scrollView.contentSize = image.size;
+            self.imageView.hidden = NO;
+            [self.activityIndicatorView stopAnimating];
+        }
+    });
 }
 
 - (void)setPhoto:(NSDictionary *)photo

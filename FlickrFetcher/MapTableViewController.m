@@ -81,7 +81,6 @@
     [self showView:self.activityIndicatorView];
     
     self.mapView.delegate = self;
-    self.delegate = self;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

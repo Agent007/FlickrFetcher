@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FlickrPhotoCache.h"
 
 @interface FlickrFetcherAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (readonly, strong, nonatomic) FlickrPhotoCache *cache;
 
 @end

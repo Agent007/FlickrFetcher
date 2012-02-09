@@ -11,6 +11,15 @@
 @implementation FlickrFetcherAppDelegate
 
 @synthesize window = _window;
+@synthesize cache = _cache;
+
+- (FlickrPhotoCache *)cache
+{
+    if (!_cache) {
+        _cache = [[FlickrPhotoCache alloc] init];
+    }
+    return _cache;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

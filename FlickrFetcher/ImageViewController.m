@@ -9,6 +9,7 @@
 #import "ImageViewController.h"
 #import "FlickrFetcher.h"
 #import "BackgroundLoader.h"
+#import "FlickrFetcherAppDelegate.h"
 
 @interface ImageViewController() <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -38,30 +39,18 @@
 
 - (void)fetchPhoto:(NSDictionary *)photo
 {
-    // check file-based cache
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    NSURL *cacheDirectory = (NSURL *) [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
-    NSLog(@"path: %@", cacheDirectory);
-    NSString *filepathString = [[cacheDirectory path] stringByAppendingString:(NSString *) [photo valueForKey:FLICKR_PHOTO_ID]];
-    NSData *imageData;
-    if ([fileManager fileExistsAtPath:filepathString]) {
-        imageData = [fileManager contentsAtPath:filepathString];
-    } else {
-        NSLog(@"fetchPhoto: [NSData dataWithContentsOfURL]");
-        imageData = [NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge]];
-        if (![fileManager createFileAtPath:filepathString contents:imageData attributes:nil]) {
-            NSLog(@"Unable to write file to cache!");
-        }
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (photo == self.photo) { // in case user rapidly selects several photos
-            UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
-            self.scrollView.contentSize = image.size;
-            self.imageView.hidden = NO;
-            [self.activityIndicatorView stopAnimating];
-        }
-    });
+    FlickrPhotoCache *cache = ((FlickrFetcherAppDelegate *) [[UIApplication sharedApplication] delegate]).cache;
+    [BackgroundLoader viewDidLoad:nil withBlock:^{
+        NSData *imageData = [cache imageDataForPhoto:photo];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (photo == self.photo) { // in case user rapidly selects several photos
+                UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
+                self.scrollView.contentSize = image.size;
+                self.imageView.hidden = NO;
+                [self.activityIndicatorView stopAnimating];
+            }
+        });
+    }];
 }
 
 - (void)setPhoto:(NSDictionary *)photo
@@ -73,10 +62,9 @@
         [self.activityIndicatorView startAnimating];
         _photo = photo;
         self.scrollView.zoomScale = 1;
-        // TODO ensure last photo selected is shown after multiple quick selections while downloading
-        [BackgroundLoader viewDidLoad:nil withBlock:^{
-            [self fetchPhoto:photo];
-        }];
+        
+        [self fetchPhoto:photo];
+        
         // save this photo in recently-viewed photos list
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *LAST_PHOTOS = @"LAST_PHOTOS";
@@ -153,9 +141,7 @@
 {
     [super viewDidLoad];
     self.scrollView.delegate = self;
-    [BackgroundLoader viewDidLoad:self.activityIndicatorView withBlock:^{
-        [self fetchPhoto:self.photo];
-    }];
+    [self fetchPhoto:self.photo];
     self.splitViewController.delegate = self;
 }
 

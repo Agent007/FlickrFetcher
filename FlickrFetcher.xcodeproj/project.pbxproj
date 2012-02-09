@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF2923D614E334510085DB6D /* FlickrPhotoCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2923D514E334510085DB6D /* FlickrPhotoCache.m */; };
 		AF32D11F14D5D9B4006F1333 /* MapTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF32D11E14D5D9B4006F1333 /* MapTableViewController.m */; };
 		AF54A2EC14ABA594001B0E16 /* BackgroundLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AF54A2EB14ABA593001B0E16 /* BackgroundLoader.m */; };
 		AF68201D14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = AF68201C14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m */; };
@@ -33,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AF2923D414E334510085DB6D /* FlickrPhotoCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPhotoCache.h; sourceTree = "<group>"; };
+		AF2923D514E334510085DB6D /* FlickrPhotoCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPhotoCache.m; sourceTree = "<group>"; };
 		AF32D11D14D5D9B4006F1333 /* MapTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapTableViewController.h; sourceTree = "<group>"; };
 		AF32D11E14D5D9B4006F1333 /* MapTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapTableViewController.m; sourceTree = "<group>"; };
 		AF54A2EA14ABA593001B0E16 /* BackgroundLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLoader.h; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 				AF32D11E14D5D9B4006F1333 /* MapTableViewController.m */,
 				AF68201B14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.h */,
 				AF68201C14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m */,
+				AF2923D414E334510085DB6D /* FlickrPhotoCache.h */,
+				AF2923D514E334510085DB6D /* FlickrPhotoCache.m */,
 			);
 			path = FlickrFetcher;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				AF8CC97D14D0B0940048FDAC /* FlickrPlaceAnnotation.m in Sources */,
 				AF32D11F14D5D9B4006F1333 /* MapTableViewController.m in Sources */,
 				AF68201D14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m in Sources */,
+				AF2923D614E334510085DB6D /* FlickrPhotoCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,6 +27,11 @@
 {
     if (!_mapView) {
         _mapView = [[MKMapView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
+        UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Standard", @"Satellite", @"Hybrid", nil]]; // TODO i18n
+        [segmentedControl setFrame:CGRectMake(32, 4, 256, 32)];
+        segmentedControl.selectedSegmentIndex = 0;
+        [segmentedControl addTarget:self action:@selector(changeMapType:) forControlEvents:UIControlEventValueChanged];
+        [_mapView addSubview:segmentedControl];
     }
     return _mapView;
 }
@@ -169,6 +174,24 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     NSLog(@"callout accessory tapped for annotation %@", [view.annotation title]);
+}
+
+- (IBAction)changeMapType:(UISegmentedControl *)sender
+{
+    switch (sender.selectedSegmentIndex) {
+        case 0:
+            self.mapView.mapType = MKMapTypeStandard;
+            break;
+        case 1:
+            self.mapView.mapType = MKMapTypeSatellite;
+            break;
+        case 2:
+            self.mapView.mapType = MKMapTypeHybrid;
+            break;
+        default:
+            self.mapView.mapType = MKMapTypeStandard;
+            break;
+    }
 }
 
 @end

@@ -89,6 +89,19 @@
     return [self.photos count];
 }
 
++ (NSArray *)titleAndDescriptionFromPhoto:(NSDictionary *)photo
+{
+    NSString *title = [photo valueForKey:FLICKR_PHOTO_TITLE];
+    NSString *description = [photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
+    if (!title) { // TODO what if title is whitespace, but not null?
+        title = description;
+        if (!description) {
+            title = @"Unknown";
+        }
+    }
+    return [NSArray arrayWithObjects:title, description, nil];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Photo";
@@ -100,6 +113,7 @@
     
     // Configure the cell...
     NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
+    
     NSString *title = [photo valueForKey:FLICKR_PHOTO_TITLE];
     NSString *description = [photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
     if (!title) { // TODO what if title is whitespace, but not null?
@@ -108,8 +122,27 @@
             title = @"Unknown";
         }
     }
-    cell.textLabel.text = title;
-    cell.detailTextLabel.text = description;
+    NSArray *titleAndDescription = [[self class] titleAndDescriptionFromPhoto:photo];
+    
+    cell.textLabel.text = (NSString *) [titleAndDescription objectAtIndex:0];
+    cell.detailTextLabel.text = (NSString *) [titleAndDescription lastObject];
+    cell.imageView.image = [UIImage imageNamed:@"first"]; // TODO use better-looking placeholder image
+    
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        NSURL *url = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatSquare];
+        NSLog(@"RecentPhotosTableViewController tableView:cellForRowAtIndexPath, [NSData dataWithContentsOfURL]");
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (([cell.textLabel.text isEqualToString:title] && [cell.detailTextLabel.text isEqualToString:description])) {
+                UIImage *image = data ? [UIImage imageWithData:data] : nil;
+                cell.imageView.image = image;
+                cell.imageView.hidden = NO;
+                [cell setNeedsLayout];
+            }
+        });
+    });
+    dispatch_release(downloadQueue);
     
     return cell;
 }

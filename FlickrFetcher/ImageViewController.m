@@ -39,9 +39,10 @@
 
 - (void)fetchPhoto:(NSDictionary *)photo
 {
+    if (!photo) return;
     FlickrPhotoCache *cache = ((FlickrFetcherAppDelegate *) [[UIApplication sharedApplication] delegate]).cache;
     [BackgroundLoader viewDidLoad:nil withBlock:^{
-        NSData *imageData = [cache imageDataForPhoto:photo];
+        NSData *imageData = [cache imageDataForPhoto:photo withFileManager:[[NSFileManager alloc] init]];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (photo == self.photo) { // in case user rapidly selects several photos
                 UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];
@@ -143,15 +144,6 @@
     self.scrollView.delegate = self;
     [self fetchPhoto:self.photo];
     self.splitViewController.delegate = self;
-}
-
-- (void)viewDidUnload
-{
-    self.imageView = nil;
-    self.scrollView = nil;
-    self.toolbar = nil;
-    self.activityIndicatorView = nil;
-    [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

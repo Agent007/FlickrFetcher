@@ -10,6 +10,6 @@
 
 @interface FlickrPhotoCache : NSObject
 
-- (NSData *)imageDataForPhoto:(NSDictionary *)photo;
+- (NSData *)imageDataForPhoto:(NSDictionary *)photo withFileManager:(NSFileManager *)fileManager;
 
 @end

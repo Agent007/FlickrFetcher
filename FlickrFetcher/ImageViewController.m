@@ -42,7 +42,7 @@
     if (!photo) return;
     FlickrPhotoCache *cache = ((FlickrFetcherAppDelegate *) [[UIApplication sharedApplication] delegate]).cache;
     [BackgroundLoader viewDidLoad:nil withBlock:^{
-        NSData *imageData = [cache imageDataForPhoto:photo withFileManager:[[NSFileManager alloc] init]];
+        NSData *imageData = [cache imageDataForPhoto:photo];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (photo == self.photo) { // in case user rapidly selects several photos
                 UIImage *image = self.imageView.image = [UIImage imageWithData:imageData];

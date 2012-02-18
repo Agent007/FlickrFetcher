@@ -15,7 +15,7 @@
 		AF8CC97D14D0B0940048FDAC /* FlickrPlaceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8CC97C14D0B0930048FDAC /* FlickrPlaceAnnotation.m */; };
 		AF96075714EF58D500647B29 /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = AF96075614EF58D500647B29 /* FlickrFetcher.m */; };
 		AF96075A14EF613000647B29 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF96075914EF613000647B29 /* CoreDataTableViewController.m */; };
-		AF96075D14EF617E00647B29 /* VacationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF96075C14EF617E00647B29 /* VacationViewController.m */; };
+		AF96075D14EF617E00647B29 /* VacationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF96075C14EF617E00647B29 /* VacationsTableViewController.m */; };
 		AF9DC2571487DFCB0017723F /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9DC2561487DFCB0017723F /* ImageViewController.m */; };
 		AFAE162214832350001E7D41 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFAE162114832350001E7D41 /* iPad.storyboard */; };
 		AFAE1629148328A9001E7D41 /* TopPlacesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAE1628148328A9001E7D41 /* TopPlacesTableViewController.m */; };
@@ -53,8 +53,8 @@
 		AF96075614EF58D500647B29 /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
 		AF96075814EF613000647B29 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
 		AF96075914EF613000647B29 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
-		AF96075B14EF617E00647B29 /* VacationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VacationViewController.h; sourceTree = "<group>"; };
-		AF96075C14EF617E00647B29 /* VacationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VacationViewController.m; sourceTree = "<group>"; };
+		AF96075B14EF617E00647B29 /* VacationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VacationsTableViewController.h; sourceTree = "<group>"; };
+		AF96075C14EF617E00647B29 /* VacationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VacationsTableViewController.m; sourceTree = "<group>"; };
 		AF9DC2551487DFCB0017723F /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		AF9DC2561487DFCB0017723F /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 		AFAE162114832350001E7D41 /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
@@ -164,8 +164,8 @@
 				AF68201C14DB8136007793BB /* i5CustomFlipOverStoryboardSegue.m */,
 				AF2923D414E334510085DB6D /* FlickrPhotoCache.h */,
 				AF2923D514E334510085DB6D /* FlickrPhotoCache.m */,
-				AF96075B14EF617E00647B29 /* VacationViewController.h */,
-				AF96075C14EF617E00647B29 /* VacationViewController.m */,
+				AF96075B14EF617E00647B29 /* VacationsTableViewController.h */,
+				AF96075C14EF617E00647B29 /* VacationsTableViewController.m */,
 			);
 			path = FlickrFetcher;
 			sourceTree = "<group>";
@@ -262,7 +262,7 @@
 				AF2923D614E334510085DB6D /* FlickrPhotoCache.m in Sources */,
 				AF96075714EF58D500647B29 /* FlickrFetcher.m in Sources */,
 				AF96075A14EF613000647B29 /* CoreDataTableViewController.m in Sources */,
-				AF96075D14EF617E00647B29 /* VacationViewController.m in Sources */,
+				AF96075D14EF617E00647B29 /* VacationsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

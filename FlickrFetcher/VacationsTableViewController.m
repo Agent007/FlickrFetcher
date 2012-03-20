@@ -7,6 +7,8 @@
 //
 
 #import "VacationsTableViewController.h"
+#import "Vacation.h"
+#import "VacationCreationViewController.h"
 
 @interface VacationsTableViewController ()
 
@@ -14,37 +16,92 @@
 
 @implementation VacationsTableViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@synthesize vacationDatabase = _vacationDatabase;
+
+- (void)setupFetchedResultsController
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Vacation"];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:self.vacationDatabase.managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
+}
+
+- (void)useDocument
+{
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[self.vacationDatabase.fileURL path]]) {
+        [self.vacationDatabase saveToURL:self.vacationDatabase.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
+            [self setupFetchedResultsController];
+        }];
+    } else if (self.vacationDatabase.documentState == UIDocumentStateClosed) {
+        [self.vacationDatabase openWithCompletionHandler:^(BOOL success) {
+            [self setupFetchedResultsController];
+        }];
+    } else if (self.vacationDatabase.documentState == UIDocumentStateNormal) {
+        [self setupFetchedResultsController];
     }
-    return self;
 }
 
-- (void)loadView
+- (void)setVacationDatabase:(UIManagedDocument *)vacationDatabase
 {
-    // If you create your views manually, you MUST override this method and use it to create your views.
-    // If you use Interface Builder to create your views, then you must NOT override this method.
+    if (_vacationDatabase != vacationDatabase) {
+        _vacationDatabase = vacationDatabase;
+        [self useDocument];
+    }
 }
 
-- (void)viewDidLoad
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    if ([[segue identifier] isEqualToString:@"create"]) {
+       VacationCreationViewController *vc = (VacationCreationViewController *) segue.destinationViewController;
+        vc.datasource = self;
+    }
 }
 
-- (void)viewDidUnload
+#pragma mark - View lifecycle
+
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    [super viewWillAppear:animated];
+    if (!self.vacationDatabase) {
+        NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+        url = [url URLByAppendingPathComponent:@"Vacation Database"];
+        self.vacationDatabase = [[UIManagedDocument alloc] initWithFileURL:url];
+    }
+}
+
+#pragma mark - Table view data source
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"VacationListCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // Configure the cell...
+    Vacation *vacation = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = vacation.title;
+    
+    return cell;
 }
 
 // TODO maybe move this up to superclass
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
+}
+
+- (void)synchronize
+{
+    [self.vacationDatabase saveToURL:self.vacationDatabase.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
+        if (!success) {
+            NSLog(@"unable to save"); // TODO maybe show an alert to user?
+        }
+    }];
 }
 
 @end

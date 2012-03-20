@@ -151,4 +151,11 @@
     return YES;
 }
 
+- (IBAction)toggleVisitButton:(UIBarButtonItem *)sender {
+    if ([sender.title isEqualToString:@"Visit"]) {
+        
+    } else { // Unvisit - remove from vacation itinerary
+        
+    }
+}
 @end

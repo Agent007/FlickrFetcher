@@ -7,7 +7,8 @@
 //
 
 #import "CoreDataTableViewController.h"
+#import "VacationViewControllerDataSource.h"
 
-@interface VacationsTableViewController : CoreDataTableViewController
+@interface VacationsTableViewController : CoreDataTableViewController <VacationViewControllerDataSource>
 
 @end
